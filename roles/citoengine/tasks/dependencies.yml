@@ -1,0 +1,26 @@
+---
+# Install dependencies
+- name: Installing MySQL and Python development packages + LDAP packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - libmysqlclient-dev
+    - python-dev
+    - python-pip
+    - git
+    - libldap2-dev
+    - libsasl2-dev
+    - libssl-dev
+    - libffi-dev
+    - mysql-server
+    - mysql-client
+    - python-mysqldb
+
+- name: Install required python packages
+  pip:
+    name: "{{ item }}"
+  with_items:
+      - virtualenv
+      - pexpect

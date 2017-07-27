@@ -1,0 +1,33 @@
+# MySQL Installation and Configuration
+- name: Install mysql server + rabbitmq
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - mysql-server
+    - mysql-client
+    - rabbitmq-server
+
+- name: Set mysql root password
+  mysql_user:
+    name: root
+    password: "{{ mysql_root_pass }}"
+
+- name: Drop root credentials for next runs
+  template:
+    src: .my.cnf.j2
+    dest: ~/.my.cnf
+
+- name: Create a new database 'citoengine'
+  mysql_db:
+    name: citoengine
+    state: present
+
+- name: Create a new mysql user
+  mysql_user:
+    name: "{{ citoengine_user }}"
+    password: "{{ citoengine_pass }}"
+    priv: 'citoengine.*:ALL,GRANT'
+    state: present
+    append_privs: yes

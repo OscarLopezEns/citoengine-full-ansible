@@ -1,0 +1,27 @@
+# Downloading and installing the code
+- name: Clone repo
+  git:
+    repo: https://github.com/CitoEngine/cito_plugin_server
+    dest: /opt/cito_plugin_server
+    force: yes
+
+- file:
+    path: "{{ virtualenvp }}"
+    state: directory
+    mode: 0755
+
+- name: Create virtualenv
+  shell: "virtualenv --no-site-packages {{ virtualenvp }} && source {{ virtualenvp }}/bin/activate && pip install -q --upgrade setuptools"
+  args:
+    executable: /bin/bash
+    chdir: "{{ virtualenvp }}"
+
+- name: Edit /opt/cito_plugin_server/requirements.txt
+  template:
+    src: requirements.txt.j2
+    dest: /opt/cito_plugin_server/requirements.txt
+
+- name: Install requirements
+  pip:
+    requirements: /opt/cito_plugin_server/requirements.txt
+    virtualenv: "{{ virtualenvp }}"

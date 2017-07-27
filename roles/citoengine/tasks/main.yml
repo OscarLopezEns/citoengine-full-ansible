@@ -1,0 +1,8 @@
+---
+# Install dependencies
+- include: dependencies.yml
+- include: installation.yml
+- include: mysql.yml
+- include: rabbitmq.yml
+- include: conf.yml
+- include: validation.yml

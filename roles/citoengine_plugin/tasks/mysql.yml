@@ -1,0 +1,32 @@
+# MySQL Installation and Configuration
+- name: Install mysql server
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - mysql-server
+    - mysql-client
+
+- name: Set mysql root password
+  mysql_user:
+    name: root
+    password: "{{ mysql_root_pass }}"
+
+- name: Drop root credentials for next runs
+  template:
+    src: .my.cnf.j2
+    dest: ~/.my.cnf
+
+- name: Create a new database 'cito_plugin_server'
+  mysql_db:
+    name: cito_plugin_server
+    state: present
+
+- name: Create a new mysql user
+  mysql_user:
+    name: "{{ citoengine_user }}"
+    password: "{{ citoengine_pass }}"
+    priv: 'cito_plugin_server.*:ALL,GRANT'
+    append_privs: yes
+    state: present

@@ -1,0 +1,21 @@
+# Edit default settings
+- name: Edit default settings
+  template:
+    src: production.py.j2
+    dest: /opt/cito_plugin_server/cito_plugin_server/settings/production.py
+
+# Initializing the tables and creating an admin account
+- name: Populate the database
+  command: "{{ virtualenvp }}/bin/python /opt/cito_plugin_server/manage.py syncdb --noinput --migrate"
+
+- name: Update django secret (for csrf)
+  shell: "/opt/cito_plugin_server/bin/create-django-secret.py > /opt/cito_plugin_server/cito_plugin_server/settings/secret_key.py"
+
+# Create your first CitoEngine superuser
+- name: Create admin user
+  expect:
+    command: "{{ virtualenvp }}/bin/python /opt/cito_plugin_server/manage.py createsuperuser --username {{ citoengine_user }} --email {{ citoengine_pass }}"
+    responses:
+      Password: "{{ citoengine_pass }}"
+      Password (again): "{{ citoengine_pass }}"
+  ignore_errors: yes

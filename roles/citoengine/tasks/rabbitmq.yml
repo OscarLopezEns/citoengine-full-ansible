@@ -1,0 +1,13 @@
+# Setting up RabbitMQ
+- rabbitmq_vhost:
+    name: /citoengine_event_listener
+    state: present
+
+- rabbitmq_user:
+    user: "{{ citoengine_user }}"
+    password: "{{ citoengine_pass }}"
+    vhost: /citoengine_event_listener
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    state: present

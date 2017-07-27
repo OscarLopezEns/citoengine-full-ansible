@@ -1,0 +1,21 @@
+# Edit default settings
+- name: Edit "{{ virtualenv }}"/conf/citoengine.conf
+  template:
+    src: citoengine.conf.j2
+    dest: "{{ virtualenv }}/conf/citoengine.conf"
+
+# Initializing the tables and creating an admin account
+- name: Populate the database
+  command: "{{ virtualenv }}/bin/python {{ virtualenv }}/app/manage.py migrate"
+
+- name: Update django secret (for csrf)
+  shell: "{{ virtualenv }}/bin/create-django-secret.py > {{ virtualenv }}/app/settings/secret_key.py"
+
+# Create your first CitoEngine superuser
+- name: Create admin user
+  expect:
+    command: "{{ virtualenv }}/bin/python {{ virtualenv }}/app/manage.py createsuperuser --username {{ citoengine_user }} --email {{ citoengine_pass }}"
+    responses:
+      Password: "{{ citoengine_pass }}"
+      Password (again): "{{ citoengine_pass }}"
+  ignore_errors: yes

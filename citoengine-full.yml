@@ -1,0 +1,14 @@
+---
+- hosts: default
+  become: true
+  vars:
+    - virtualenv: "/opt/citoengine"
+    - virtualenvp: "/opt/virtualenvs/citopluginvenv"
+    - mysql_root_pass: "root"
+    - citoengine_user: "citoengine"
+    - citoengine_pass: "citoengine"
+    - citoengine_email: "oscara.lopez@softtek.com"
+    - citoengine_tz: "America/Mexico_City"
+  roles:
+    - { role: citoengine }
+    - { role: citoengine_plugin }

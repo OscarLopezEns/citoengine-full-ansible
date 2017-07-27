@@ -1,0 +1,7 @@
+---
+# Install dependencies
+- include: dependencies.yml
+- include: mysql.yml
+- include: installation.yml
+- include: conf.yml
+- include: validation.yml

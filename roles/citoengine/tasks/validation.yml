@@ -1,0 +1,13 @@
+# Validate installation
+- name: Validate installation
+  command: "{{ virtualenv }}/bin/python {{ virtualenv }}/app/manage.py validate"
+
+- name: Configure services on startup
+  command: "{{ virtualenv }}/bin/upstart/configure-upstart.sh"
+
+# Start services
+- name: Start CitoEngine SQS Poller service
+  shell: "nohup {{ virtualenv }}/bin/citoengine-poller.sh </dev/null >/dev/null 2>&1 &"
+
+- name: Start CitoEngine Engine
+  shell: "nohup {{ virtualenv }}/bin/citoengine-webapp.sh </dev/null >/dev/null 2>&1 &"

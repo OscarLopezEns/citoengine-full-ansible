@@ -1,0 +1,25 @@
+# Validate installation
+- name: Validate installation
+  command: "{{ virtualenvp }}/bin/python /opt/cito_plugin_server/manage.py validate"
+
+- name: Modify startup script to use gunicorn directly as it was not working with manage.py
+  template:
+    src: cito-plugin-server.sh.j2
+    dest: /opt/cito_plugin_server/bin/cito-plugin-server.sh
+
+- name: Modify cito-plugin-server.conf to run as root
+  template:
+    src: cito-plugin-server.conf.j2
+    dest: /opt/cito_plugin_server/bin/upstart/cito-plugin-server.conf
+
+- name: Fix path issue on /opt/cito_plugin_server/bin/upstart/configure-upstart.sh
+  template:
+    src: configure-upstart.sh.j2
+    dest: /opt/cito_plugin_server/bin/upstart/configure-upstart.sh
+
+- name: Configure services on startup
+  command: "/opt/cito_plugin_server/bin/upstart/configure-upstart.sh"
+
+# Start services
+- name: Start CitoEngine Plugin Server
+  shell: "nohup /opt/cito_plugin_server/bin/cito-plugin-server.sh </dev/null >/dev/null 2>&1 &"
