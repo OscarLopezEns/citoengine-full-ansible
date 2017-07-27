@@ -29,5 +29,5 @@
     name: "{{ citoengine_user }}"
     password: "{{ citoengine_pass }}"
     priv: 'citoengine.*:ALL,GRANT'
-    state: present
     append_privs: yes
+    state: present

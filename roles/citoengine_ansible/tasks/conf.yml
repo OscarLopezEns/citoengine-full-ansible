@@ -1,0 +1,31 @@
+# Create plugins directory
+- file:
+    path: /opt/plugins
+    state: directory
+    mode: 0755
+
+# Create symbolic link for ansible-playbooks to /opt/plugins
+- name: Create symbolic link for ansible-playbooks to /opt/plugins
+  file:
+    src: /usr/bin/ansible-playbook
+    dest: /opt/plugins/ansible-playbook
+    state: link
+
+# Modify timeout for plugin execution so Ansible playbooks are able to run
+- name: Modify timeout for plugin execution so Ansible playbooks are able to run
+  lineinfile:
+    path: /opt/cito_plugin_server/cito_plugin_server/settings/production.py
+    regexp: "'timeout': 5"
+    line: "'timeout': 60"
+
+# Deploy test playbook
+- name: Deploy test playbook
+  template:
+    src: test.yml.j2
+    dest: /etc/ansible/test.yml
+
+# Create dummy test file.txt
+- name: Creat dummy text file for test
+  copy:
+    src: "{{ role_path }}/files/file.txt"
+    dest: /tmp/file.txt

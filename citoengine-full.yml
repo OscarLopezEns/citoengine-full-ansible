@@ -8,7 +8,8 @@
     - citoengine_user: "citoengine"
     - citoengine_pass: "citoengine"
     - citoengine_email: "oscara.lopez@softtek.com"
-    - citoengine_tz: "America/Mexico_City"
+    - citoengine_tz: "America/Los_Angeles"
   roles:
     - { role: citoengine }
     - { role: citoengine_plugin }
+    - { role: citoengine_ansible }

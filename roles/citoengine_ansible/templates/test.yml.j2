@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+  - name: Test task (delete file.txt in /tmp)
+    file:
+      path: /tmp/file.txt
+      state: absent
