@@ -10,6 +10,6 @@
     - citoengine_email: "oscara.lopez@softtek.com"
     - citoengine_tz: "America/Los_Angeles"
   roles:
-    - { role: citoengine }
-    - { role: citoengine_plugin }
+    #- { role: citoengine }
+    #- { role: citoengine_plugin }
     - { role: citoengine_ansible }

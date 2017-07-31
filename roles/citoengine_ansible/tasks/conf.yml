@@ -15,8 +15,9 @@
 - name: Modify timeout for plugin execution so Ansible playbooks are able to run
   lineinfile:
     path: /opt/cito_plugin_server/cito_plugin_server/settings/production.py
-    regexp: "'timeout': 5"
+    regexp: "'timeout':"
     line: "'timeout': 60"
+    state: present
 
 # Deploy test playbook
 - name: Deploy test playbook
