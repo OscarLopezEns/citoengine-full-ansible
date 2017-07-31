@@ -1,5 +1,5 @@
 ---
-- hosts: default
+- hosts: "{{ target }}"
   become: true
   vars:
     - virtualenv: "/opt/citoengine"
