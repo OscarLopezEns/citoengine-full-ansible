@@ -16,12 +16,6 @@
     executable: /bin/bash
     chdir: "{{ virtualenvp }}"
 
-#- name: Edit /opt/cito_plugin_server/requirements.txt
-#  lineinfile:
-#    path: /opt/cito_plugin_server/requirements.txt
-#    regexp: 'distribute==0.6.45'
-#    line: 'distribute>0.6.45'
-
 - name: Install requirements
   pip:
     requirements: /opt/cito_plugin_server/requirements.txt
