@@ -3,10 +3,10 @@
   command: "{{ virtualenvp }}/bin/python /opt/cito_plugin_server/manage.py validate"
 
 # Modify startup script to use gunicorn directly as it was not working with manage.py
-- name: Modify startup script to use gunicorn directly as it was not working with manage.py
-  template:
-    src: cito-plugin-server.sh.j2
-    dest: /opt/cito_plugin_server/bin/cito-plugin-server.sh
+#- name: Modify startup script to use gunicorn directly as it was not working with manage.py
+#  template:
+#    src: cito-plugin-server.sh.j2
+#    dest: /opt/cito_plugin_server/bin/cito-plugin-server.sh
 
 - name: Modify cito-plugin-server.conf to run as root
   lineinfile:
@@ -14,11 +14,11 @@
     regexp: 'exec /opt/cito_plugin_server/bin/cito-plugin-server.sh'
     line: 'exec sudo /opt/cito_plugin_server/bin/cito-plugin-server.sh'
 
-- name: Fix path issue on /opt/cito_plugin_server/bin/upstart/configure-upstart.sh
-  lineinfile:
-    path: /opt/cito_plugin_server/bin/upstart/configure-upstart.sh
-    regexp: 'cp /opt/cito/bin/upstart/cito-plugin-server.conf /etc/init/'
-    line: 'cp /opt/cito_plugin_server/bin/upstart/cito-plugin-server.conf /etc/init/'
+#- name: Fix path issue on /opt/cito_plugin_server/bin/upstart/configure-upstart.sh
+#  lineinfile:
+#    path: /opt/cito_plugin_server/bin/upstart/configure-upstart.sh
+#    regexp: 'cp /opt/cito/bin/upstart/cito-plugin-server.conf /etc/init/'
+#    line: 'cp /opt/cito_plugin_server/bin/upstart/cito-plugin-server.conf /etc/init/'
 
 - name: Configure services on startup
   command: "/opt/cito_plugin_server/bin/upstart/configure-upstart.sh"
